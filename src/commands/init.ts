@@ -1,8 +1,8 @@
 import * as path from 'path';
+import { createFsdrc } from '../config/config';
 import { createTsconfig } from '../config/tsconfig';
 import { indexTsxContent, appTsxContent, styleModulesDeclaration } from '../templates/rootTemplates';
 import { createFile, createDirectory } from '../utils/fileUtils';
-import { createFsdrc } from '../config/config';
 
 // Базовая структура FSD
 const fsdStructure = {
@@ -35,7 +35,13 @@ export async function init() {
 
       for (const file of fsdStructure[dir as keyof typeof fsdStructure]) {
         const filePath = path.join(dirPath, typeof file === 'string' ? file : file);
-        if (typeof file === 'string' && !file.includes('/')) {
+        // Проверяем, является ли элемент известной папкой или файлом
+        const knownDirectories = ['ui', 'lib', 'config', 'types'];
+        if (typeof file === 'string' && knownDirectories.includes(file)) {
+          await createDirectory(filePath);
+        } else if (file === 'types/styleModules.d.ts') {
+          await createFile(filePath, styleModulesDeclaration);
+        } else if (typeof file === 'string' && !file.includes('/')) {
           if (file === 'index.tsx' && dir === 'src') {
             await createFile(filePath, indexTsxContent);
           } else if (file === 'App.tsx' && dir === 'src') {
@@ -43,8 +49,6 @@ export async function init() {
           } else {
             await createFile(filePath, `// ${file} for ${dir}\n`);
           }
-        } else if (file === 'types/styleModules.d.ts') {
-          await createFile(filePath, styleModulesDeclaration);
         } else {
           await createDirectory(filePath);
         }
