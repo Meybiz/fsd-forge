@@ -1,5 +1,4 @@
 import inquirer from 'inquirer';
-import { EntityType, Preprocessor } from '../types/index.types';
 import { readFsdrc } from '../config/config';
 import { add } from './add';
 import { validateEntityName } from '../utils/validateEntityName';
@@ -25,7 +24,6 @@ export async function forge() {
     }
   ];
 
-  // Запрашиваем препроцессор, только если .fsdrc отсутствует
   if (!configPreprocessor) {
     questions.push({
       type: 'list',

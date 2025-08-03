@@ -2,15 +2,12 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import inquirer from 'inquirer';
 import { Preprocessor } from '../types/index.types';
-
-// Содержимое для .fsdrc
 export const getFsdrcContent = (preprocessor: Preprocessor) => `
 {
   "preprocessor": "${preprocessor}"
 }
 `;
 
-// Чтение конфигурации из .fsdrc
 export async function readFsdrc(): Promise<Preprocessor | null> {
   const fsdrcPath = path.join(process.cwd(), '.fsdrc');
   try {
@@ -25,7 +22,6 @@ export async function readFsdrc(): Promise<Preprocessor | null> {
   }
 }
 
-// Запрос препроцессора и создание .fsdrc
 export async function createFsdrc(): Promise<Preprocessor> {
   const answers = await inquirer.prompt([
     {

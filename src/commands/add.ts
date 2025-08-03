@@ -22,7 +22,6 @@ export async function add(type: EntityType, name: string, options: { preprocesso
 
   const basePath = path.join(process.cwd(), `src/${type}s`, name);
   try {
-    // Чтение препроцессора из .fsdrc, если не передан
     const resolvedPreprocessor = options.preprocessor || (await readFsdrc()) || 'scss';
     const entityTemplates = getTemplates(resolvedPreprocessor)[type];
     await createDirectory(basePath);

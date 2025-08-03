@@ -4,7 +4,6 @@ import { createTsconfig } from '../config/tsconfig';
 import { indexTsxContent, appTsxContent, styleModulesDeclaration } from '../templates/rootTemplates';
 import { createFile, createDirectory } from '../utils/fileUtils';
 
-// Базовая структура FSD
 const fsdStructure = {
   'src': ['index.tsx', 'App.tsx'],
   'src/app': [],
@@ -22,20 +21,16 @@ const fsdStructure = {
 
 export async function init() {
   try {
-    // Создание .fsdrc с выбором препроцессора
     await createFsdrc();
-
-    // Создание tsconfig.json
     await createTsconfig();
 
-    // Создание структуры FSD
     for (const dir of Object.keys(fsdStructure)) {
       const dirPath = path.join(process.cwd(), dir);
       await createDirectory(dirPath);
 
       for (const file of fsdStructure[dir as keyof typeof fsdStructure]) {
         const filePath = path.join(dirPath, typeof file === 'string' ? file : file);
-        // Проверяем, является ли элемент известной папкой или файлом
+
         const knownDirectories = ['ui', 'lib', 'config', 'types'];
         if (typeof file === 'string' && knownDirectories.includes(file)) {
           await createDirectory(filePath);

@@ -1,6 +1,6 @@
 {
   "name": "fsd-forge",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "CLI for initializing and managing Feature-Sliced Design projects",
   "main": "dist/cli.js",
   "bin": {

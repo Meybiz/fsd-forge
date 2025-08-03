@@ -1,7 +1,6 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
-// Содержимое для tsconfig.json
 export const tsconfigContent = `
 {
   "compilerOptions": {
@@ -21,7 +20,6 @@ export const tsconfigContent = `
 }
 `;
 
-// Создание tsconfig.json
 export async function createTsconfig() {
   const tsconfigPath = path.join(process.cwd(), 'tsconfig.json');
   try {
